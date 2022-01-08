@@ -1,0 +1,20 @@
+@import './fonts/DankMono/stylesheet.css';
+@import 'heroicons-css/heroicons.css';
+@import './themes/themes.css';
+@import './syntax.css';
+@import './markdown.css';
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter';
+}
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  @apply bg-secondary opacity-75 fixed top-0 left-0 h-[2px] w-full;
+}
