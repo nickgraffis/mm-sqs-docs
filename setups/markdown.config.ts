@@ -80,11 +80,6 @@ export default async() => {
       })
       md.use(Footnote)
       md.use(Shiki)
-      md.use(CustomBlock, {
-        mermaid(arg) {
-          return `<div class="mermaid">${arg}</div>`
-        },
-      })
       md.use(TableOfContents)
     },
   })
