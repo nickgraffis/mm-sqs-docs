@@ -1,5 +1,6 @@
 ---
 title: Create a Queue
+lastUpdated: 2022-01-08T07:12:46.226Z
 ---
 
 ## How to create a queue with CloudFormation

@@ -189,3 +189,64 @@ a.item {
   padding: 6px 12px;
   border-top: 1px solid var(--border);
 }
+
+
+/* width */
+.col-span-3::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* width */
+.col-span-9::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.col-span-3::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+ 
+/* Handle */
+.col-span-3::-webkit-scrollbar-thumb {
+  @apply bg-aro;
+}
+
+/* Handle on hover */
+.col-span-3::-webkit-scrollbar-thumb:hover {
+  @apply bg-blade;
+}
+
+/* Track */
+.col-span-9::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+ 
+/* Handle */
+.col-span-9::-webkit-scrollbar-thumb {
+  @apply bg-aro;
+}
+
+/* Handle on hover */
+.col-span-9::-webkit-scrollbar-thumb:hover {
+  @apply bg-blade;
+}
+
+/* width */
+pre::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+pre::-webkit-scrollbar-track {
+  @apply bg-muted;
+}
+ 
+/* Handle */
+pre::-webkit-scrollbar-thumb {
+  @apply bg-aro;
+}
+
+/* Handle on hover */
+pre::-webkit-scrollbar-thumb:hover {
+  @apply bg-blade;
+}

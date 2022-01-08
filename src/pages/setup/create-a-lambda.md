@@ -1,6 +1,7 @@
 ---
 title: Create a Lambda
 order: 3
+lastUpdated: 2022-01-08T07:12:46.226Z
 ---
 
 ## How to create the lambda that will be triggered by the SQS poller
@@ -18,6 +19,8 @@ name: ${self:service}-${self:provider.stage}-example-queue-lambda
     Fn::GetAtt: [mmRole, Arn]
   environment:
     region: ${self:provider.region}
+    LAMBDA_TIMEOUT: ${self:custom.env.LAMBDA_CONFIG.timeout}
+    MAX_RECEIVE_COUNT: 2
     modelmatchTable:
       Fn::ImportValue:
         Fn::Sub: '${self:custom.env.APP_CONFIG.namespace}-repository-${self:custom.env.APP_CONFIG.environment}-modelmatchTable'
@@ -36,11 +39,13 @@ In general this is the same as any other lambda, but we have added a few extra p
 The events that trigger the lambda, and we want to add a SQS event.
 
 ### batchSize -
-The number of messages to process at a time. If the number of messages in the queue is less than the batch size, then the batch size will be the number of messages in the queue, but it will wait the time specified in the `ReceiveMessageWaitTimeSeconds` parameter for messages to arrive.
+The number of messages to process at a time. If the number of messages in the queue is less than the batch size, then the batch size will be the number of messages in the queue, but it will wait the time specified in the `ReceiveMessageWaitTimeSeconds` (set at the queue level) parameter for messages to arrive.
 
 ## Important environment variables
 1. `modelmatchTable` — We need this to work with the MM Messaging API.
 2. `queueUrl` — We need this to work with the SQS API.
+3. `LAMBDA_TIMEOUT` - We need this to make sure that we are not allowing messages that may still be working in another lambda.
+4. `MAX_RECEIVE_COUNT` - We need to know this if we are working with a queue cluster, and need to know when to run potential hooks after we have given up on a message, and potentially a cluster.
 
 ## Important permissions
 Whatever role you are depending on, it needs to have the following permissions:

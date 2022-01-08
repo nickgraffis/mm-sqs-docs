@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
 
-defineProps<{ page: any }>()
+const props = defineProps({ page: { required: false } })
+const { page } = toRefs(props)
 const router = useRouter()
 const route = useRoute()
 const open = ref(false)
-
+watch(route, (v) => {
+  if (v.path.includes(page.value.path.split('/')[1]))
+    open.value = true
+})
 const capitolize = (str: string) => {
   return str.replace(/-/g, ' ').replace(/\w\S*/g, (txt) => {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()

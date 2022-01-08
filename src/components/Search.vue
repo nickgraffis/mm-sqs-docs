@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
+import { useMagicKeys } from '@vueuse/core'
 import { useSearching } from './state'
+
+const keys = useMagicKeys()
+const metaK = keys['Ctrl+K']
+const downK = keys.ArrowDown
 const router = useRouter()
 const routes = router.getRoutes()
 const query = ref('')
@@ -37,12 +42,17 @@ const go = (path) => {
   router.push(path)
   searching.setSearching(false)
 }
+
+watch(metaK, (v) => {
+  if (v)
+    searching.isSearching() ? searching.setSearching(false) : searching.setSearching(true)
+})
 </script>
 
 <template>
   <div v-if="searching.isSearching()" style="z-index: 100;" class="w-screen h-screen fixed bg-vonCount bg-opacity-50 flex items-center justify-center">
-    <div class="w-1/3 bg-nosferatu rounded-md">
-      <div class="relative bg-nosferatu p-6">
+    <div class="w-1/3 bg-nosferatu rounded-xl">
+      <div class="relative bg-nosferatu p-6 rounded-xl">
         <input v-model="query" type="text" placeholder="Search the docs" class="focus:outline-none placeholder:muted focus:border-opacity-100 border-opacity-75 pl-10 apperance-none border-2 rounded-md border-blade p-2 bg-nosferatu w-full" />
         <div class="absolute top-8.5 left-8">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blade" fill="none" viewBox="0 0 24 24" stroke="currentColor">

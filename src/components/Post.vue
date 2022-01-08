@@ -42,10 +42,9 @@ const { frontmatter } = defineProps<{ frontmatter: any }>()
       <span v-html="twemoji.parse(frontmatter.display || frontmatter.title, { className: 'twemoji' })"></span>
     </h1>
     <!-- Only show if there is a date && duration inside the frontmatter -->
-    <p v-if="frontmatter.date" class="!my-2 !font-semibold">
-      Published: {{ formatDate(frontmatter.date) }}
-      <span v-if="frontmatter.lastUpdated && formatDate(frontmatter.lastUpdated) !== formatDate(frontmatter.date)"> · Updated: {{ formatDate(frontmatter.lastUpdated) }}</span>
-      <span v-if="frontmatter.duration">· {{ frontmatter.duration }}</span>
+    <p class="!my-2 !font-semibold">
+      <span v-if="frontmatter.lastUpdated && formatDate(frontmatter.lastUpdated) !== formatDate(frontmatter.date)">Updated: {{ formatDate(frontmatter.lastUpdated) }}</span>
+      <span v-if="frontmatter.duration"> · {{ frontmatter.duration }}</span>
     </p>
     <slot />
   </div>

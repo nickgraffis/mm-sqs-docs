@@ -67,7 +67,7 @@ export default defineConfig({
             p: {
               fontSize: '18px',
             },
-            code: { color: 'inherit' },
+            code: { color: 'var(--grass)' },
           },
         },
       },

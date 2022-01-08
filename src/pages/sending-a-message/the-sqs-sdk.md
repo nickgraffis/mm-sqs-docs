@@ -1,5 +1,6 @@
 ---
 title: The SQS SDK
+lastUpdated: 2022-01-08T07:12:46.226Z
 ---
 
 ## API use of the SQS SDK

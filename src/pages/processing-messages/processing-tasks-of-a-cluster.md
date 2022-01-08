@@ -1,5 +1,6 @@
 ---
 title: Processing Messages (Tasks) that are part of a Cluster
+lastUpdated: 2022-01-08T07:12:46.226Z
 ----
 
 ## Reading the SQS Record for a Message, Message Record, and Message Cluster
@@ -551,6 +552,130 @@ async function processMessage(record: SQSRecord) {
   await updateClusterGlobals<Globals>(
     { pKey: messageRecord.pKey, rKey: messageRecord.rKey },
     (globals: Globals) => [...globals, { firstName: 'John', lastName: 'Doe' }]
+  )
+}
+```
+
+## Performing Logic When a Cluster is Complete
+
+You can use the `onClusterComplete` hook to perform some logic only when a cluster has drained it's incomplete tasks. Meaning, that it is possible that a task was not complete, but was retried more than the `MaxRetries` value. You can set your hook to run a some logic depending on weather the cluster completed successfully or not as well.
+
+::: dracula
+🧛🏻‍♂️ Hey, it would be best if on the hook we didn't automatically provide the global data, because that is a potential waste of resources.
+:::
+
+```ts twoslash
+import { SQSRecord } from 'aws-lambda'
+import AWS from 'aws-sdk'
+
+export type SQSMessageKey = `SQSMessage$${string}`
+
+declare class Stringified<T> extends String {
+  private ___stringified: T
+}
+
+interface JSON {
+  stringify<T>(
+    value: T,
+    replacer?: (key: string, value: any) => any,
+    space?: string | number
+  ): string & Stringified<T>
+  parse<T>(text: Stringified<T>, reviver?: (key: any, value: any) => any): T
+  parse(text: string, reviver?: (key: any, value: any) => any): any
+}
+
+export type MessageClusterRecord<Meta = any, TaskMeta = any> = {
+  type: RecordType
+  url: string
+  pKey: SQSMessageKey
+  rKey: SQSMessageKey
+  status: Status
+  error?: any[]
+  statusCode: StatusCode
+  startedAt: string
+  completedAt: string | null
+  completedTasks: Task<TaskMeta>[]
+  incompleteTasks: Task<TaskMeta>[]
+  bucketParams: {
+    Bucket: string
+    Key: string
+  }
+  meta?: Meta
+  updatedAt: string
+  expiresAt: string
+}
+
+export type MessageRecord<Meta = any, Body = any> = {
+  pKey: SQSMessageKey
+  rKey: SQSMessageKey
+  id: string
+  url: string
+  meta?: Meta
+  body: String & Stringified<Body>
+  type: RecordType
+  startedAt: string
+  status: Status
+  statusCode: StatusCode
+  completedAt: string | null
+  updatedAt: string
+  expiresAt: string
+  consumtion_count: number
+  error?: any[]
+}
+
+export type Task<Meta = any> = {
+  meta: Meta
+  type: 'task'
+  id?: string
+  status?: Status
+}
+
+export enum RecordType {
+  cluster = 'cluster',
+  task = 'task',
+  message = 'message'
+}
+
+export enum Status {
+  preFlight = 'PRE FLIGHT',
+  inProgress = 'IN PROGRESS',
+  complete = 'COMPLETE',
+  error = 'ERROR'
+}
+
+export enum StatusCode {
+  preFlight = 0,
+  inProgress = 100,
+  complete = 200,
+  error = 400,
+  stopped = 500
+}
+
+export async function onClusterComplete<Meta = any, Globals = any>(
+  key: { pKey: SQSMessageKey; rKey: SQSMessageKey },
+  onCompletedCallback: (record: MessageClusterRecord<Meta>, globals: Globals) => Promise<void>,
+  onErrorCallback?: (record: MessageClusterRecord<Meta>, globals: Globals) => Promise<void>
+) { }
+
+// ---cut---
+type MetaData = {
+  stuff: string
+}
+
+type Globals = {
+  firstName: string,
+  lastName: string
+}[]
+
+async function processMessage(record: SQSRecord) {
+  await onClusterComplete<MetaData, Globals>(
+    { pKey: 'SQSMessage$jfkdlajf', rKey: 'SQSMessage$jfkdlajf' },
+    async (record, globals) => {
+      // Perform logic when cluster is complete
+    },
+    async (record, globals) => {
+      // Perform logic when cluster is complete with errors
+    }
   )
 }
 ```

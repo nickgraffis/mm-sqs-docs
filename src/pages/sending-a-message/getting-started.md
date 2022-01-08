@@ -1,6 +1,7 @@
 ---
 title: Getting Started
 order: 4
+lastUpdated: 2022-01-08T07:12:46.226Z
 ---
 
 You can send a message easily, and let the api handle most of the heavy lifting. 

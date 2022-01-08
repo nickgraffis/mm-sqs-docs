@@ -1,5 +1,6 @@
 ---
 title: Model Match SQS Integration
+lastUpdated: 2022-01-08T07:12:46.226Z
 order: 1
 ---
 
@@ -17,29 +18,3 @@ function isThisHelpful(message: Helpful) {
   return message
 }
 ```
-
-## Documentation Notices
-
-There are a few notices throught the documentation that you should keep in mind. Here is what they are and what they mean:
-
-::: warning
-A heads up about something that you can do, but should proceed with caution.
-:::
-
-<p></p>
-
-::: danger
-A heads up about something that you should not do.
-:::
-
-<p></p>
-
-::: success
-Some extra info that seems helpful and important
-:::
-
-<p></p>
-
-::: dracula
-A note to developers about ways we can improve the code.
-:::

@@ -1,5 +1,6 @@
 ---
 title: Our DynamoDB Record
+lastUpdated: 2022-01-08T07:12:46.226Z
 ---
 
 ## The Message Record

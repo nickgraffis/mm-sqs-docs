@@ -1,6 +1,7 @@
 ---
 title: Processing Messages
 order: 5
+lastUpdated: 2022-01-08T07:12:46.226Z
 ---
 The biggest thing the `Model Match Message API` does it to help process messages in a way that doesn't retry messages that were successfull. This means that we can accept batches of messages, without having to process the messages multiple times, or without filling up the queue with messages that have already been processed. 
 
