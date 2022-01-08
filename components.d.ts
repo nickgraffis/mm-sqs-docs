@@ -18,7 +18,6 @@ declare module 'vue' {
     'Il:moon': typeof import('virtual:vite-icons/il/moon')['default']
     LaVolleyballBall: typeof import('virtual:vite-icons/la/volleyball-ball')['default']
     MenuItem: typeof import('./src/components/MenuItem.vue')['default']
-    Mermaid: typeof import('./src/components/Mermaid.vue')['default']
     Post: typeof import('./src/components/Post.vue')['default']
     PostsList: typeof import('./src/components/PostsList.vue')['default']
     Search: typeof import('./src/components/Search.vue')['default']

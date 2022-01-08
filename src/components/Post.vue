@@ -2,8 +2,6 @@
 import twemoji from 'twemoji'
 import { useEventListener, isClient } from '@vueuse/core'
 import { useHead, Head } from '@vueuse/head'
-//@ts-ignore
-import mermaid from 'mermaid/dist/mermaid'
 import { formatDate, slugify, currentPost } from '../logics'
 import setupTwoslashHovers from '../setupTwoslashHovers'
 
@@ -27,8 +25,6 @@ if (isClient) {
         navigate()
       })
     })
-
-    mermaid.initialize({ startOnLoad: true })
 
     navigate()
     setTimeout(navigate, 500)
